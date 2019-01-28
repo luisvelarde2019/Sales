@@ -2,17 +2,16 @@
 
 namespace Sales.ViewModels
 {
-    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
-    using Sales.Common.Models;
-    using Sales.Services;
-    using Sales.Views;
-    
     using Xamarin.Forms;
-    
+
+    using Common.Models;
+    using Helpers;
+    using Services;
+    using Views;
     public class ProductsViewModel: BaseViewModel
     {
         private ApiService apiService;
@@ -42,12 +41,23 @@ namespace Sales.ViewModels
         private async void LoadProducts()
         {
             this.IsRefreshing = true;
+            var connection=await this.apiService.CheckConnection();
+            if (!connection.isSucess)
+            {
+                this.IsRefreshing = false;
+                await Application.Current.MainPage.DisplayAlert(Languages.Error,connection.Message, Languages.Accept);
+                return;
 
-            var response = await this.apiService.Getlist<Product>("https://salesapijrz.azurewebsites.net", "/api", "/Products");
+            }
+            var url = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlProductsController"].ToString();
+
+            var response = await this.apiService.Getlist<Product>(url, prefix, controller);
             if (!response.isSucess)
             {
                 this.IsRefreshing = false;
-                await Application.Current.MainPage.DisplayAlert("Error", response.Message, "Accept");
+                await Application.Current.MainPage.DisplayAlert(Languages.Error, response.Message, Languages.Accept);
                 return;
             }
             var list = (List<Product>)response.Result;
