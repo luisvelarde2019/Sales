@@ -112,4 +112,34 @@
   <data name="Products" xml:space="preserve">
     <value>Products</value>
   </data>
+  <data name="AddProduct" xml:space="preserve">
+    <value>Add Product</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="DescriptionPlaceholder" xml:space="preserve">
+    <value>Enter product description</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="PricePlaceholder" xml:space="preserve">
+    <value>Enter product price</value>
+  </data>
+  <data name="Remarks" xml:space="preserve">
+    <value>Remarks</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="ChangeImage" xml:space="preserve">
+    <value>Touch  Image to Change</value>
+  </data>
+  <data name="DescriptionError" xml:space="preserve">
+    <value>You must enter a description</value>
+  </data>
+  <data name="PriceError" xml:space="preserve">
+    <value>You must enter a price greater than zero</value>
+  </data>
 </root>

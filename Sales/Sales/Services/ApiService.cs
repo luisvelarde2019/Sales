@@ -10,7 +10,7 @@ namespace Sales.Services
     using Plugin.Connectivity;
     using Common.Models;
     using Helpers;
-    
+    using System.Text;
 
     public class ApiService
     {
@@ -78,5 +78,44 @@ namespace Sales.Services
             }
         }
 
+        public async Task<Response> Post<T>(string urlBase, string prefix, string controller,T model)
+        {
+            try
+            {
+                var request = JsonConvert.SerializeObject(model);
+                var content = new StringContent(request, Encoding.UTF8, "application/json");
+                
+                var client = new HttpClient();
+                client.BaseAddress = new Uri(urlBase);
+                var url = $"{prefix}{controller}";
+                var response = await client.PostAsync(url,content);
+                var answer = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        isSucess = false,
+                        Message = answer,
+                    };
+                }
+                var obj = JsonConvert.DeserializeObject<T>(answer);
+                return new Response
+                {
+                    isSucess = true,
+                    Result = obj,
+                };
+
+            }
+            catch (Exception ex)
+            {
+
+                return new Response
+                {
+                    isSucess = false,
+                    Message = ex.Message,
+
+                };
+            }
+        }
     }
 }
