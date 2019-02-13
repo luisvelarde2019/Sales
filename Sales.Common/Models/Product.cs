@@ -3,6 +3,7 @@ namespace Sales.Common.Models
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public class Product
     {
@@ -28,6 +29,10 @@ namespace Sales.Common.Models
         [DataType(DataType.Date)]
         public DateTime PublishOn { get; set; }
 
+        [NotMapped]
+        public byte[] ImageArray { get; set; }
+
+
         public string ImageFullPath
         { get
             {
@@ -36,7 +41,7 @@ namespace Sales.Common.Models
                     return "noproduct";
                 }
 
-                return $"https://salesbackendjrz.azurewebsites.net/{this.ImagePath.Substring(1)}";
+                return $"https://salesapijrz.azurewebsites.net/{this.ImagePath.Substring(1)}";
             }
         }
 
